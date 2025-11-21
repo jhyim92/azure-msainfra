@@ -1,0 +1,27 @@
+# docker compose v3 형식으로 쓸거를 선언
+services:
+  gateway-service:
+    # 이 서비스의 Docker 이미지는 해당 디렉토리 안의 DockerFile 로 빌드
+    build: ./gateway-service
+    # 컨테이너 이름
+    container_name: gateway_service
+    # 호스트:컨테이너
+    # 내 PC 8080 -> 컨테이너 안 8080 연결
+    ports:
+      - "8080:8080"
+    # 컨테이너 실행 순서 정의, 1번 user 2번 order 3번 gateway
+    depends_on:
+      - user-service
+      - order-service
+
+  user-service:
+    build: ./user-service
+    container_name: user-service
+    ports:
+      - "8081:8081"
+
+  order-service:
+    build: ./order-service
+    container_name: order-service
+    ports:
+      - "8082:8082"
